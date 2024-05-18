@@ -8,9 +8,6 @@
 
 .env
 /.env
-/.env
-
-.sample.env
 
 /sample.env
 # testing
