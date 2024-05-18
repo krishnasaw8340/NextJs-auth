@@ -21,6 +21,9 @@ export default function SignUp() {
             setLoading(true)
             const response = await axios.post("/api/users/signup", user);
             console.log("SignUp sucsess", response.data)
+            setTimeout(()=>{
+                toast.success("Account Created !")
+            },1000)
             router.push("/login")
 
         }
@@ -71,13 +74,13 @@ export default function SignUp() {
                     className="px-4 py-2 mb-4 text-black rounded-md focus:outline-none focus:border-orange-300 "
                 />
 
-                <label htmlFor="usename">password</label>
+                <label htmlFor="password">password</label>
                 <input
                     id="password"
                     type="password"
                     value={user.password}
                     onChange={(e) => setUser({ ...user, password: e.target.value })}
-                    placeholder="username"
+                    placeholder="password"
                     className="px-4 py-2 mb-4 rounded-md focus:outline-none focus:border-orange-300 text-black"
                 />
 
