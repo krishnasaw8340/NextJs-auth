@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function UserProfile ({params}:any) {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -5,6 +7,7 @@ export default function UserProfile ({params}:any) {
              <hr/>
              <p className="text-4xl">Profile page Different 1 [id]  : </p>
              <span className="p-2 rounded bg-rounded-md text-orange-500">{params.id}</span>
+             <Link href='/profile'>Home</Link>
         </div>
     )
 }
