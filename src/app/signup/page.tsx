@@ -86,6 +86,9 @@ export default function SignUp() {
 
                 <button onClick={onSignUp} className=" mb-3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-300">{buttonDisable ? "No signup" : "Signup" }</button>
                 <Link href="/login">Already have an account?</Link>
+                <span className="mt-5">
+                    <Link href="/">Back to home</Link>
+                </span>
             </div>
         </>
     )

@@ -1,80 +1,98 @@
 "use client";
 import Link from "next/link";
-import React, { useState, useEffect }  from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-
-
-
 export default function LoginPage() {
-    const router = useRouter()
-    const [user, setUser] = React.useState({
-        email: "",
-        password: "",
-    })
-    const [buttonDisable, setButtonDisable] = useState(false);
-    const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+  const [buttonDisable, setButtonDisable] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-    const OnLogin = async () => {
-        try{
-            setLoading(true)
-            const response = await axios.post("/api/users/login", user);
-            console.log("Login Successful", response.data)
-            toast.success("Login Success")
-            router.push("/profile")
-
-        }
-        catch(err:any)
-        {
-            console.log("Login Failed", err)
-            toast.error(err.message)
-        }
-
+  const OnLogin = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/users/login", user);
+      console.log("Login Successful", response.data);
+      toast.success("Login Success");
+      router.push("/profile");
+    } catch (err: any) {
+      console.log("Login Failed", err);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    useEffect(()=>{
-        if(user.email.length > 0 && user.password.length > 0)
-            {
-                setButtonDisable(false)
-            }
-            else {
-                setButtonDisable(true)
-            }
+  useEffect(() => {
+    setButtonDisable(!(user.email.length > 0 && user.password.length > 0));
+  }, [user]);
 
-    },[user])
-    return (
-        <>
-            {/* <h1 className="text-green-400 font-medium rounded text-center">This is Sign UP page: </h1> */}
-            <div className="flex flex-col items-center justify-center min-h-screen py-2">
-                <h1>Login from here!</h1>
-                <span>{loading ? " Processing...": "You can login now"}</span>
-                <hr />
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUser({
+      ...user,
+      [e.target.id]: e.target.value,
+    });
+  };
 
-                <label htmlFor="email">email</label>
-                <input
-                    id="email"
-                    type="email"
-                    value={user.email}
-                    onChange={(e) => setUser({ ...user, email: e.target.value })}
-                    placeholder="email"
-                    className="px-4 py-2 mb-4 text-black rounded-md focus:outline-none focus:border-orange-300 "
-                />
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h1 className="text-2xl font-semibold mb-6 text-center">Login from here!</h1>
+        <span className="mb-6 block text-center text-gray-600">
+          {loading ? "Processing..." : "You can login now"}
+        </span>
+        <hr className="mb-6" />
 
-                <label htmlFor="passsword">password</label>
-                <input
-                    id="password"
-                    type="password"
-                    value={user.password}
-                    onChange={(e) => setUser({ ...user, password: e.target.value })}
-                    placeholder="password"
-                    className="px-4 py-2 mb-4 text-black rounded-md focus:outline-none focus:border-orange-300 "
-                />
+        <form onSubmit={(e) => { e.preventDefault(); OnLogin(); }}>
+          <label htmlFor="email" className="block mb-2 font-medium">Email</label>
+          <input
+            id="email"
+            type="email"
+            value={user.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-orange-300"
+          />
 
-                <button onClick={OnLogin} className=" p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-300">Login</button>
-                <Link href="/signup">Don't have an account ?</Link>
-            </div>
-        </>
-    )
+          <label htmlFor="password" className="block mb-2 font-medium">Password</label>
+          <input
+            id="password"
+            type="password"
+            value={user.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-orange-300"
+          />
+
+          <button
+            type="submit"
+            className={`w-full py-2 px-4 mb-4 text-white rounded-md focus:outline-none ${buttonDisable ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"}`}
+            disabled={buttonDisable}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+
+        <div className="flex justify-between">
+          <Link href="/signup" className="text-blue-500 hover:underline">
+            Don't have an account?
+          </Link>
+          <Link href="/forgot-password" className="text-blue-500 hover:underline">
+            Forgot Password?
+          </Link>
+        </div>
+        <div className="mt-5 text-center">
+          <Link href="/" className="text-blue-500 hover:underline">
+            Back to home
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 }
