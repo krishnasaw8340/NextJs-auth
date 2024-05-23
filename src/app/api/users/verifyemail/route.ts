@@ -10,7 +10,7 @@ export async function POST(request: NextRequest)
     try{
         const reqBody = await request.json()
         const {token} = reqBody
-        console.log("token is coming",token)
+        // console.log("token is coming",token)
 
         const user = await User.findOne({verifyToken: token, verifyTokenExpiry: {$gt:Date.now()}})
 

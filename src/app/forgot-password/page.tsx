@@ -1,11 +1,26 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState<string>('');
 
-  const handleSubmitForgotPass = () => {
+  const handleSubmitForgotPass = async(e:any) => {
+    e.preventDefault();
+    try{
+      // console.log("Email coming frontend", email)
+      const res = await axios.post('/api/users/resetpassword',email)
+      toast.success("Email sent successfuly")
+    }
+    catch(error:any)
+    {
+      
+    }
+    const response = await axios.post("/api/users/send-reset-email", email);
+    toast.success("Email sent", response.data)
+    toast.success('Check your mail to verify and reset.')
    
     // Handle form submission
   };
