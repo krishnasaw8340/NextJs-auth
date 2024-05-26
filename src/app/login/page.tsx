@@ -83,7 +83,7 @@ export default function LoginPage() {
           <Link href="/signup" className="text-blue-500 hover:underline">
             Don't have an account?
           </Link>
-          <Link href="/forgot-password" className="text-blue-500 hover:underline">
+          <Link href="/forgot-email" className="text-blue-500 hover:underline">
             Forgot Password?
           </Link>
         </div>

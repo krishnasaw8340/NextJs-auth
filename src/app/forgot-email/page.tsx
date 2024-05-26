@@ -4,7 +4,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-export default function ForgotPassword() {
+export default function ForgotEmail() {
   const [email, setEmail] = useState("");
 
   const handleSubmitForgotPass = async (e: React.FormEvent) => {
